@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdvertController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -47,5 +48,7 @@ Route::get('/auth/callback', function () {
         return redirect('/')->with('error', 'Authentication failed.');
     }
 });
+
+Route::get('/adverts', [AdvertController::class, 'index']);
 
 require __DIR__.'/auth.php';
