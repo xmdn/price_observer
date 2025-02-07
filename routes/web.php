@@ -39,8 +39,10 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/auth/callback', function () {
     try {
-        $user = Socialite::driver('olx')->user();  // Fetch user data from OLX
-        dd($user);  // Debug: Show retrieved user data
+        // Fetch user data from OLX
+        $user = Socialite::driver('olx')->user();
+        // Debug: Show retrieved user data
+        dd($user);
     } catch (Exception $e) {
         return redirect('/')->with('error', 'Authentication failed.');
     }
