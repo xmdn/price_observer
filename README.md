@@ -22,9 +22,14 @@ The project was initially designed to use **Supervisor**, but we switched to **L
 
 ---
 
+## Diagram 
+![alt text](image.png)
+
 ## 🚀 How to Run
 
 ### **1️⃣ Clone the Repository**
 ```sh
 git clone https://github.com/xmdn/price_observer.git
 cd price_observer
+
+
