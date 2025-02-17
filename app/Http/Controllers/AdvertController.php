@@ -87,7 +87,7 @@ class AdvertController extends Controller
 
                 if ($advert->price != $newPrice) {
                     $advert->update(['price' => $newPrice]);
-                    \Mail::to('tnebilyk@gmail.com')->send(new \App\Mail\PriceAlert($advert));
+                    \Mail::to('example@gmail.com')->send(new \App\Mail\PriceAlert($advert));
                 }
             }
         }

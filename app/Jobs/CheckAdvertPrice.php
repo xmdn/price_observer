@@ -122,7 +122,7 @@ class CheckAdvertPrice implements ShouldQueue, ShouldBeUnique
             Redis::del($lockKey);
 
             // Re-dispatch the job with a 10-minute delay
-            self::dispatch($user, $advert)->delay(now()->addSeconds(7));
+            self::dispatch($user, $advert)->delay(now()->addMinutes(5));
         } catch (\Exception $e) {
             \Log::error("Error processing advert ID {$this->advert->id}: " . $e->getMessage());
         } finally {
