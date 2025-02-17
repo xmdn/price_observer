@@ -14,6 +14,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Cache;
 
 class CheckAdvertPrice implements ShouldQueue, ShouldBeUnique
 {
@@ -61,6 +62,18 @@ class CheckAdvertPrice implements ShouldQueue, ShouldBeUnique
         try {
             $advert = $this->advert;
             $user = $this->user;
+
+            $cachedPrice = Cache::get($cacheKey);
+            if ($cachedPrice) {
+                Log::info("Retrieved price from cache for advert ID {$advert->advert_id}: {$cachedPrice}");
+
+                // If the cached price is the same, avoid processing
+                if ($cachedPrice == $advert->price) {
+                    Log::info("Price unchanged for advert ID {$advert->advert_id}, skipping update.");
+                    return;
+                }
+            }
+            
             $url = "https://m.olx.ua/api/v2/offers/{$advert->advert_id}/";
 
             $response = Http::get($url);
@@ -91,6 +104,8 @@ class CheckAdvertPrice implements ShouldQueue, ShouldBeUnique
                 \Log::warning("Price not found in response for {$advert->advert_id}");
                 return;
             }
+
+            Cache::put($cacheKey, $newPrice, now()->addMinutes(10));
             
             // Check if price has changed
             if ($newPrice !== $advert->price) {
@@ -98,7 +113,7 @@ class CheckAdvertPrice implements ShouldQueue, ShouldBeUnique
                 $advert->update(['price' => $newPrice]);
 
                 // Send notification email
-                // Mail::to($user->email)->send(new PriceAlert($advert, $newPrice));
+                Mail::to($user->email)->send(new PriceAlert($advert, $newPrice));
 
                 \Log::info("Price updated for {$advert->advert_id} - New Price: {$newPrice}");
             }
