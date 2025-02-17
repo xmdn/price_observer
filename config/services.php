@@ -30,5 +30,10 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'olx' => [
+        'client_id'     => env('OLX_CLIENT_ID'),
+        'client_secret' => env('OLX_CLIENT_SECRET'),
+        'redirect'      => env('OLX_REDIRECT_URI'),
+    ],
 
 ];

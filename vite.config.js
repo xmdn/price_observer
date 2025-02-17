@@ -3,6 +3,9 @@ import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
+    server: {
+        https: true, // Force Vite to use HTTPS
+    },
     plugins: [
         laravel({
             input: 'resources/js/app.js',
