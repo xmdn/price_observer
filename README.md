@@ -32,4 +32,10 @@ The project was initially designed to use **Supervisor**, but we switched to **L
 git clone https://github.com/xmdn/price_observer.git
 cd price_observer
 
+### **2️⃣Build application**
+```sh
+sail build
 
+### **3️⃣Run application in detached mode**
+```sh
+sail up -d
